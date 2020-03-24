@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title> Homepage </title>
+</head>
+
+<body>
+		
+
+    <div class="row">
+        <div class="col mt-3">
+            <center> 
+                <h1>Welcome to CityExperience!</h1>
+           </center>
+        </div>
+    </div>
+
+	<div class="container mt-5" align="center">
+		<form action="/place/:id">
+			<label>Please, enter your place query:</label>
+			<input type="text" name="name">
+			<a href ="" class="btn btn-primary">View rewiews</a>
+        </form>
+    </div>
+
+    <% for place in @places %>
+        <p>
+            <a href = "/places/<%= place[:id] %>"><%= place[:name] %></a>
+        </p>
+
+    <% end %>
+        
+
+    </body>
+    </html>

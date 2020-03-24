@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title> New review </title>
+</head>
+
+<body>
+    <div class = "row">
+        <div class = "col mt-3">
+        <center> 
+            <h2> Submit a new review for <%= @place[:name] %> </h2>
+        </center>
+        </div>
+    </div>
+
+    <form action="/places/<%= @place[:id] %>/reviews/create">
+ 
+  <div class="form-group">
+    <label >Rating</label>
+    <select class="form-control" name="rating">
+      <option value ="1">1</option>
+      <option value ="2">2</option>
+      <option value ="3">3</option>
+      <option value ="4">4</option>
+      <option value ="5">5</option>
+    </select>
+  </div>
+  
+  <div class="form-group">
+    <label>Comments</label>
+    <textarea class="form-control" name="comment" rows="3" cols ="50"></textarea>
+  </div>
+
+  <center>  
+    <div class = "row">
+        <div class = "col mt-3">
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+      
+        
+    </div>
+</center>
+</form>
+
+
+</body>
+</html>

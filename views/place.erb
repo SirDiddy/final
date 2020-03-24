@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title> Reviews </title>
+</head>
+
+<body>
+    <div class = "row">
+        <div class = "col mt-3">
+        <center> 
+            <h2> <%= @place[:name] %> reviews </h2>
+            <div class = "col mt-2">
+        <p class="lead"> In <%=@place[:name]%> today, the temperature is <%=@current_temp%> Fahreneit and the weather is <%=@current_summary%> </p>
+        </div>
+        </center>
+        </div>
+    </div>
+
+    <div class = "row">
+       <div class = "col md-9">
+       <div class = "col mt-5">
+       <div id="map-container-section" class="z-depth-1-half map-container-section mb-4" style="height: 400px">
+            <center> 
+            <iframe frameborder="0" style="border:0" height="400" widgth="900" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBdd-uGBpnN6bTF5fwzYxQhvhfMj-KXimA&q=<%=@place[:name]%>">
+            </iframe>
+            </center>
+        </div>
+        </div>
+        
+        
+        
+        </div>
+        
+        <div class = "col md-3">
+        <div class = "col mt-5">
+        <h3> Average rating: </h3> 
+            <i class="fa fa-star checked"></i>
+            <i class="fa fa-star checked"></i>
+            <i class="fa fa-star checked"></i>
+            <i class="fa fa-star checked"></i>
+            <i class="fa fa-star checked"></i>
+                    
+        <p> </p>
+        <p> </p>
+        <p> </p>
+       
+        <h3> Traveller comments </h3>
+        <% for review in @reviews %>
+         <h6> <%= @users_table.where(id: review[:user_id]).to_a[0][:username]%> </h6>     
+         <h10> <%= review[:comments] %> </h10>
+           <p> </p>
+        <% end %>
+      
+        <a href="/places/<%= @place[:id] %>/reviews/new" class="btn btn-primary">Add a new rewiew</a>
+
+    </div>
+</body>
+</html>
+
