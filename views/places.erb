@@ -8,29 +8,36 @@
 <body>
 		
 
-    <div class="row">
-        <div class="col mt-3">
-            <center> 
-                <h1>Welcome to CityExperience!</h1>
-           </center>
-        </div>
-    </div>
+<div class="jumbotron">
+  <h1 class="display-4">CityExperience!</h1>
+  <center>
+  <p class="lead"><i>Your best travel guide!</i></p>
+  <hr class="my-4">
+  <p>Learn more from travellers like yourself through the list below.</p>
+  <% if @current_user %>
 
-	<div class="container mt-5" align="center">
-		<form action="/place/:id">
-			<label>Please, enter your place query:</label>
-			<input type="text" name="name">
-			<a href ="" class="btn btn-primary">View rewiews</a>
-        </form>
-    </div>
+  <% else %>
+  <center>  
+  <a class="btn btn-primary btn-lg" href="/users/new" role="button">Sign up here</a>
+  </center>
+  <%end%>
+</div>    
 
+
+ <div class = "col mt-5">
     <% for place in @places %>
         <p>
-            <a href = "/places/<%= place[:id] %>"><%= place[:name] %></a>
+        <ul class="list-group list-group-flush">
+  <li class="list-group-item"><a href = "/places/<%= place[:id] %>"><%= place[:name] %></a></li>
+  
+</ul>
+            
         </p>
 
     <% end %>
-        
+    </div>
+     
+   
 
     </body>
     </html>

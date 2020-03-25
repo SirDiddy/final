@@ -19,16 +19,23 @@ after { puts; }                                                                 
 
 ForecastIO.api_key = "f1a2aea7e88a73ac70215f2b871e02cd"
 
+#implementing Twilio messaging 
+account_sid = "AC470c5563a6c60c43301512fe0d411c6b"
+auth_token = "1447efe68c8ffe1a02e2615439430174"
+client = Twilio::REST::Client.new(account_sid, auth_token)
+
 
 places_table = DB.from(:places)
 reviews_table = DB.from(:reviews)
 users_table = DB.from(:users)
+@users_table=users_table
 
 before do
      @current_user=users_table.where(id: session["user_id"]).to_a[0]
 end
 
-  @users_table=users_table
+
+ 
 get "/" do 
     puts "params: #{params}"
     pp places_table.all.to_a
@@ -42,14 +49,12 @@ get "/places/:id" do
  
 
     @users_table=users_table
-
+    @count = 0
     pp places_table.where(id: params["id"]).to_a[0]
     @place = places_table.where(id: params["id"]).to_a[0]
     @reviews = reviews_table.where(place_id: @place[:id]).to_a
-    @rating_count = reviews_table.where(place_id: @place[:id]).count
-    #@reviews_sum = reviews_table.where(place_id: @place[:id]).sum
-    #@average_rating = @reviews_sum/@reviews_count
-    
+    @average_rating = reviews_table.where(place_id: @place[:id]).avg(:rating).to_f
+   
    puts "@place is #{@place[:name]}"
     results = Geocoder.search(@place[:name])
     lat_lng = results.first.coordinates
@@ -90,18 +95,71 @@ get "/places/:id/reviews/create" do
     view "create_review"
 end 
 
+get "/reviews/:id/edit" do
+    puts "params: #{params}"
+
+    @review = reviews_table.where(id: params["id"]).to_a[0]
+    @place = places_table.where(id: @review[:place_id]).to_a[0]
+    view "edit_review"
+end
+
+post "/reviews/:id/update" do
+    puts "params: #{params}"
+        @review = reviews_table.where(id: params["id"]).to_a[0]
+        @place = places_table.where(id: @review[:place_id]).to_a[0]
+
+        if @current_user && @current_user[:id] == @review[:id]
+        reviews_table.where(id: params["id"]).update(
+            rating: params["rating"],
+            comments: params["comment"]
+        )
+             view "update_review"
+        else
+            view "error"
+        end
+ end
+
+
+get "/reviews/:id/destroy" do
+    puts "params: #{params}"
+
+    review = reviews_table.where(id: params["id"]).to_a[0]
+    @place = places_table.where(id: review[:place_id]).to_a[0]
+
+    reviews_table.where(id: params["id"]).delete
+
+    view "destroy_review"
+end
+
+
+
 get "/users/new" do
     view "new_user"
 end
 
 post "/users/create" do
     puts "params: #{params}"
+    existing_user=users_table.where(email: params["email"]).to_a[0]
+    #app_phone = PHONE 
+   
+
+    if existing_user
+        view "error"
+    else 
     users_table.insert(
-        username: params["name"],
+        username: params["name"],  
         email: params["email"],
+        phone_number: params["phone_number"],
         password: BCrypt::Password.create(params["password"])
     )
+    # send the SMS saying Thank you for signing up - current number - 6095925926
+        client.messages.create(
+        from: "+12075485734", 
+        to: params["phone_number"],
+        body: "Thanks for signing up."
+)
     view "create_user"
+end
 end
 
 get "/logins/new" do
@@ -123,9 +181,7 @@ post "/logins/create" do
     end
 end
 
-
 get "/logout" do
-
     session["user_id"] = nil
-    view "logout"
+    redirect  "/logins/new"
 end

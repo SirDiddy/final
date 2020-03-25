@@ -8,8 +8,7 @@ DB = Sequel.connect(connection_string)                                          
 DB.create_table! :places do
     primary_key :id
     String :name 
-    String :rating
-    String :comments, text: true
+    
 end 
 
 DB.create_table! :reviews do
@@ -24,6 +23,7 @@ end
 DB.create_table! :users do
     primary_key :id
     String :username
+    String :phone_number
     String :email
     String :password
 
@@ -33,18 +33,12 @@ end
 places_table = DB.from(:places)
 
 places_table.insert(name: "Paris", 
-                    rating: "4",
-                    comments: "Best place,I've ever visited. Loved the food, has a great view as well."
                    )
 
 places_table.insert(name: "Bangkok", 
-                    rating: "3",
-                    comments: "Loved the Thai menu. Pretty affordable too."
-                   )
+                    )
 
 places_table.insert(name: "Idaho", 
-                    rating: "4",
-                    comments: "Great American comfort food and breakfast. Great bang for your buck!"
-                   )                 
+                  )                 
 
                    
