@@ -16,7 +16,7 @@ DB.create_table! :reviews do
     foreign_key :place_id
     foreign_key :user_id
     String :reviewer
-    String :rating
+    Integer :rating
     String :comments, text: true
 
 end
