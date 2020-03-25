@@ -17,11 +17,11 @@ before { puts; puts "--------------- NEW REQUEST ---------------"; puts }       
 after { puts; }                                                                       #
 #######################################################################################
 
-ForecastIO.api_key = "f1a2aea7e88a73ac70215f2b871e02cd"
+ForecastIO.api_key = ENV["FORECAST_KEY"]
 
 #implementing Twilio messaging 
-twilio_account_sid = "AC470c5563a6c60c43301512fe0d411c6b"
-auth_token = "1447efe68c8ffe1a02e2615439430174"
+twilio_account_sid = ENV["TWILIO_ACCOUNT_SID"]
+auth_token = "9fd8a978676a197a0e2e39400f41c60b"
 client = Twilio::REST::Client.new(twilio_account_sid, auth_token)
 
 
