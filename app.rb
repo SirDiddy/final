@@ -20,9 +20,9 @@ after { puts; }                                                                 
 ForecastIO.api_key = "f1a2aea7e88a73ac70215f2b871e02cd"
 
 #implementing Twilio messaging 
-account_sid = "AC470c5563a6c60c43301512fe0d411c6b"
+twilio_account_sid = "AC470c5563a6c60c43301512fe0d411c6b"
 auth_token = "1447efe68c8ffe1a02e2615439430174"
-client = Twilio::REST::Client.new(account_sid, auth_token)
+client = Twilio::REST::Client.new(twilio_account_sid, auth_token)
 
 
 places_table = DB.from(:places)
