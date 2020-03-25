@@ -21,7 +21,7 @@ ForecastIO.api_key = ENV["FORECAST_KEY"]
 
 #implementing Twilio messaging 
 twilio_account_sid = ENV["TWILIO_ACCOUNT_SID"]
-auth_token = "9fd8a978676a197a0e2e39400f41c60b"
+auth_token = ENV["AUTH_TOKEN"]
 client = Twilio::REST::Client.new(twilio_account_sid, auth_token)
 
 
