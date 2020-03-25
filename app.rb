@@ -154,7 +154,7 @@ post "/users/create" do
     )
     # send the SMS saying Thank you for signing up - current number - 6095925926
         client.messages.create(
-        from: "+12075485734", 
+        from: ENV["PHONE"], 
         to: params["phone_number"],
         body: "Thanks for signing up."
 )
